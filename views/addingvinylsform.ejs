@@ -1,0 +1,96 @@
+<%- include("top") %>
+  <% if (typeof authenticated !=='undefined' && authenticated) { %>
+    <%- include("authenticatednav") %>
+      <% } else { %>
+        <%- include("nav") %>
+          <% } %>
+            <div class="container text-center mt-2  ">
+              <div class="row-6">
+                <div class="card bg-success-subtle text-center mt-4">
+                  <div class="card-body ">
+                    <form method="POST" action="/addvinyl">
+                      <input type="hidden" name="collectionId" value="<%= collectionId %>">
+                      <div class="vinyl mt-4 mb-4">
+                        <h3>Add Vinyls</h3>
+                        <div class="vinyl-form">
+                          <div class="form-group mb-4">
+                            <label for="vinyl-name">Vinyl Name</label>
+                            <input type="text" class="form-control" name="vinylname" placeholder="Enter Vinyl Name"
+                              required>
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="vinyl-artist">Artist</label>
+                            <input type="text" class="form-control" name="vinylartist" placeholder="Enter Artist Name"
+                              required>
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="vinyl-artist">Vinyl Cover URL</label>
+                            <input type="text" class="form-control" name="vinylurl" placeholder="Enter Vinyl Cover URL"
+                              required>
+                          </div>
+                          <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGenre">Genre</label>
+                            <select class="form-select" id="inputGenre" name="genre">
+                              <option selected>Choose...</option>
+                              <% genrename.forEach((genre)=>{ %>
+                                <option value="<%= genre.genre_name %>" required>
+                                  <%= genre.genre_name %>
+                                </option>
+                                <% }); %>
+                            </select>
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="vinyl-artist">Year Released</label>
+                            <input type="text" class="form-control" name="yearreleased"
+                              placeholder="Enter the Year released" required>
+                            <button type="submit" class="mt-4" style="border: none; background-color: transparent;"><i
+                                class="fa-solid fa-plus fa-2xl" style="color: #60e916;"></i> ADD</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
+            <h1 class="text-center mb-4 mt-4 text-success">Current Vinyls In this Collection!</h1>
+            <div class="container mt-5 mb-5">
+              <div class="row">
+                <% collectiondetails.forEach((vinyl)=> { %>
+                  <div class="col-lg-6">
+                    <div class="content">
+                      <a href="/vinyl?vinyl_id=<%= vinyl.vinyl_id %>" class="text-decoration-none text-reset">
+                        <div class="card border-dark" id="collection-card">
+                          <p class="card-title text-center text-success"><b>
+                              <%= vinyl.vinyl_name %>
+                            </b></p>
+                          <div class="card-body">
+                            <img src="<%= vinyl.img_path %>" class="vinyl-img" alt="Vinyl Cover">
+                          </div>
+                          <div class="row my-3">
+                            <div class="col">
+                              <a href="/addingtracksform?vinyl_id=<%= vinyl.vinyl_id %>"
+                                style="text-decoration: none; color: black;" class="my-4 mx-4">
+                                <i class="fa-solid fa-file-pen fa-xl" style="color: #ffae00;"></i> Edit
+                              </a>
+                            </div>
+                            <div class="col">
+                              <form method="POST" action="/deletevinyl">
+                                <input type="hidden" name="vinylId" value="<%= vinyl.vinyl_id %>">
+                                <input type="hidden" name="collectionId" value="<%= collectionId %>">
+                                <button type="submit" class=" mx-4"
+                                  style="border: none; background-color: transparent;">
+                                  <i class="fa fa-trash fa-xl" aria-hidden="true"></i> Delete
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  <% }) %>
+              </div>
+            </div>
+            <%- include("foot") %>

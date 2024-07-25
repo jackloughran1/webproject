@@ -1,0 +1,51 @@
+<%- include("top") %>
+
+    <% if (authentication) { %>
+        <%- include("authenticatednav") %>
+            <% } else { %>
+                <%- include("nav") %>
+                    <% } %>
+
+                        <div class="container">
+                            <h1 class="text-center text-success py-3 mb-5">All Vinyls</h1>
+                            <form method="GET" action="/browsevinyls">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-3 mb-3 text-center">
+                                        <label for="filterSelect" class="form-label"><b>Filter by:</b></label>
+                                        <select class="form-select" id="filterSelect" name="filter">
+                                            <option value="all" <% if(filter === "allvinyls") { %> selected <% } %>>All Vinyls</option>
+                                            <option value="genre" <% if(filter === "genre") { %> selected <% } %>>Genre</option>
+                                            <option value="artist" <% if(filter === "artist") { %> selected <% } %>>Artist</option>
+                                        </select>
+                                        <button class="btn btn-success my-3" type="submit">Apply Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                                <% vinyldata.forEach((vinyl)=> { %>
+                                    <div class="col mb-4">
+                                        <a href="/vinyl?vinyl_id=<%= vinyl.vinyl_id %>"
+                                            class="text-decoration-none text-reset">
+                                            <div class="card border-success h-75" id="collection-card">
+                                                <h5 class="card-title text-center"><b>
+                                                        <%= vinyl.vinyl_name %>
+                                                    </b></h5>
+                                                <img src="<%= vinyl.img_path %>" class="card-img-top h-75 mt-4 mb-2"
+                                                    alt="<%= vinyl.vinyl_name %>">
+                                                <div class="card-body">
+
+                                                    <p class="card-text text-success text-center"><b>Artist: </b>
+                                                        <%= vinyl.artist_name %>
+                                                    </p>
+                                                    <p class="card-text text-success text-center pb-3"><b>Genre: </b>
+                                                        <%= vinyl.genre_name %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+
+                        <%- include('foot') %>

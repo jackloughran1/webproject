@@ -1,0 +1,72 @@
+<%- include("top") %>
+
+  <% if (authenticated) { %>
+    <%- include("authenticatednav") %>
+      <% } else { %>
+        <%- include("nav") %>
+          <% } %>
+            <div class="container text-center">
+              <h1 class="mt-4 mb-4">Manage Collections for <%= userdata.username %>
+              </h1>
+              <div class="row">
+                <div class="d-grid d-md-flex justify-content-md-end mb-5 mt-4">
+                  <div class="col-md-12">
+                    <form method="POST" action="/addcollection">
+                      <div class="form-group mt-4">
+                        <label for="collection-name">
+                          <h3>Collection Name!</h3>
+                        </label>
+                        <input type="text" class="form-control" name="collectionName"
+                          placeholder="Enter collection name" id="collectionId" required>
+                        <label for="collection-name">
+                          <h3>Collection Description!</h3>
+                        </label>
+                        <input type="text" class="form-control" name="collectionDesc"
+                          placeholder="Collection Description" id="collectionDesc" required>
+
+                        <button type="submit" class="mt-4" style="border: none; background-color: transparent;"><i
+                            class="fa-regular fa-square-plus fa-xl" style="color: #ff0019;"></i> Add</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="row mt-5" id="managecollections">
+                  <div class="col-md-12">
+                    <% if (usercollection && usercollection.length>0) { %>
+                    <table class="table table-hover table-striped mt-5 mb-5 border-success align-middle">
+                      <thead>
+                        <tr>
+                          <th>Collections</th>
+                          <th>Manage</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <% usercollection.forEach((collection)=> { %>
+                            <tr>
+                              <td>
+                                  <%= collection.collection_name %>
+                                </a></td>
+                              <td>
+                                <form method="POST" action="/deletecollection">
+                                  <input type="hidden" name="collectionId" value="<%= collection.collection_id %>">
+                                  <button type="submit" style="border: none; background-color: transparent;"><i
+                                      class="fa fa-trash fa-xl" aria-hidden="true"></i></button>
+                                  <h6>Delete</h6>
+                                </form>
+                                <a href="/addingvinylsform?collection_id=<%=collection.collection_id%>"><i
+                                    class="fa-solid fa-pen-to-square fa-xl" style="color: #4cde17;"></i></a>
+                                <h6>Edit</h6>
+                              </td>
+                            </tr>
+                            <% }) %>  
+                      </tbody>
+                    </table>
+                    <% } else { %>
+                      <h3 class="text-center">You have no collections yet!</h3>
+                      <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%- include("foot") %>

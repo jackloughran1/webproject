@@ -1,0 +1,91 @@
+<%- include("top") %>
+  <% if (authentication) { %>
+    <%- include("authenticatednav") %>
+      <% } else { %>
+        <%- include("nav") %>
+          <% } %>
+            <h1 class="text-center mb-4 mt-4 text-success">
+              <%=collectionname%>
+            </h1>
+            <div class="container mt-5 mb-5">
+              <a href="/browsecollections"> <img class="back-arrow" src="/images/arrow-return-left.svg"></a>
+              <div class="row">
+                <% collectiondetails.forEach((vinyl)=> { %>
+                  <div class="col-md-6">
+                    <div class="content">
+                      <a href="/vinyl?vinyl_id=<%= vinyl.vinyl_id %>" class="text-decoration-none text-reset">
+                        <div class="card border-dark" id="collection-card">
+                          <p class="card-title text-center text-success"><b>
+                              <%= vinyl.vinyl_name %>
+                            </b></p>
+                          <div class="card-body">
+                            <img src="<%= vinyl.img_path %>" class="vinyl-img" alt="Vinyl Cover">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  <% }) %>
+              </div>
+            </div>
+            <% if (authentication) { %>
+              <form method="POST" action="/addreview">
+                <input type="hidden" name="collection_id" value="<%= collectiondetails[0].collection_id %>">
+                <h5 class="text-center"><b>Write a Review!</b></h5>
+                <div class="mb-3 mx-3">
+                  <label for="review-title">Review Title</label>
+                  <input type="text" class="form-control" name="reviewtitle">
+                </div>
+                <div class="mb-3 mx-3">
+                  <label for="review-description" class="form-label"><b>Review Description</b></label>
+                  <input type="text" class="form-control" name="reviewdesc">
+                </div>
+                <button type="submit" class="mt-4 mx-3" style="border: none; background-color: transparent;"><i
+                    class="fa-solid fa-plus fa-2xl" style="color: #60e916;"></i> ADD</button>
+              </form>
+              <% } %>
+                <% if (reviews.length> 0) { %>
+                  <table class="table table-hover mt-5 mb-5 border-success">
+                    <thead>
+                      <tr>
+                        <th>Review Title</th>
+                        <th>Review Description</th>
+                        <th>Created By</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% reviews.forEach((review)=> {
+                        const options = {
+                        weekday: 'long',
+                        month:'long',
+                        day:'2-digit',
+                        year : 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric'
+                        };
+                        let customDate = review.review_timestamp;
+                        customDate = customDate.toLocaleString('en-GB',options);
+                        %>
+                        <tr>
+                          <td>
+                            <%= review.review_title %>
+                          </td>
+                          <td>
+                            <%= review.review_desc %>
+                          </td>
+                          <td>Added by <%= review.username %> on <%= customDate %>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
+                  </div>
+                  <% } else { %>
+                    <div class="d-flex flex-column align-items-center mt-5 mb-5">
+                      <h3 class="text-center mb-4">No reviews yet</h3>
+                      <i class="fa-sharp fa-regular fa-comment fa-4x fa-flip"></i>
+                    </div>
+                    </div>
+                    <% } %>
+                      </div>
+                      <%- include("foot") %>

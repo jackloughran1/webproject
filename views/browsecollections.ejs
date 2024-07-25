@@ -1,0 +1,90 @@
+<%- include("top") %>
+
+  <% if (authentication) { %>
+    <%- include("authenticatednav") %>
+      <% } else { %>
+        <%- include("nav") %>
+          <% } %>
+            <div class="container-fluid">
+              <h1 class="text-center text-success mb-4 mt-4">All Collections</h1>
+              <form class="form-inline my-2" action="/browsecollections" method="get">
+                <input class="form-control mr-sm-6" type="search" placeholder="Search by artist/genre etc.."
+                  aria-label="Search" name="search">
+                <button class="btn btn-outline-success" type="submit"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
+              </form>
+              <% if (collectiondata.length===0) { %>
+                <div class="searchempty">
+                  <div class="d-flex flex-column align-items-center mt-5 mb-5">
+                    <h4 class="mb-4">No Results Found</h4>
+                    <i class="fa-regular fa-circle-question fa-6x fa-beat"></i>
+                  </div>
+                </div>
+                <% } else { %>
+                  <div class="row">
+                    <% collectiondata.forEach((collection)=> {
+                      const options = {
+                      weekday: 'long',
+                      month:'long',
+                      day:'2-digit'
+                      }
+                      let customDate = collection.date_collection_added;
+                      customDate = customDate.toLocaleString('en-GB',options);
+                      %>
+                      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4">
+                        <div class="card border-success" id="collection-card">
+                          <img src="<%= collection.profile_photo_url %>" class="card-img-top mt-4 mb-2" alt="Avatar"
+                            id="profile-img">
+                          <section>
+                            <dt class="text-success text-center">Created by: </dt>
+                            <dd class="text-center">
+                              <%= collection.username %>
+                            </dd>
+                            <div class="card-body ">
+                              <h5 class="card-title text-center"><b>
+                                  <%= collection.collection_name %>
+                                </b></h5>
+                              <dt class="text-success text-center">Date Created: </dt>
+                              <dd class="text-center">
+                                <%= customDate %>
+                              </dd>
+                            </div>
+                          </section>
+                          <div class="text-center">
+                            <a href="/collection-single?collection_id=<%= collection.collection_id %>">
+                              <button type="button" class="btn btn-success">View Collection</button>
+                            </a>
+                          </div>
+                          <% if (authentication) { %>
+                            <div class="d-flex flex-column align-items-center">
+                              <% if (collection.user_id) { %>
+                                <form method="POST" action="/unlikecollection">
+                                  <input type="hidden" name="collection_id" value="<%= collection.collection_id %>">
+                                  <a href="/collection-single?collection_id=<%=collection.collection_id%>"></a><button
+                                    type="submit" class=" mb-3 mt-3" name="unlike"
+                                    style="border: none; background-color: transparent;">
+                                    <i class="fa-solid fa-heart fa-xl" id="heart-icon"></i>
+                                  </button></a>
+                                </form>
+                                <% } else { %>
+                                  <form method="POST" action="/likecollection">
+                                    <input type="hidden" name="collection_id" value="<%= collection.collection_id %>">
+                                    <a href="/collection-single?collection_id=<%=collection.collection_id%>"></a><button
+                                      type="submit" class=" mb-3 mt-3"
+                                      style="border: none; background-color: transparent;">
+                                      <i class="fa-regular fa-heart fa-xl" id="heart-icon"></i>
+                                    </button></a>
+                                  </form>
+                                  <% } %>
+                                    <p>
+                                      <%= collection.like_number %> likes
+                                    </p>
+                            </div>
+                            <% } %>
+                        </div>
+                      </div>
+                      <% }); %>
+                  </div>
+                  <% } %>
+            </div>
+            <%- include("foot") %>

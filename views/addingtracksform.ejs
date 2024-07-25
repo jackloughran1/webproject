@@ -1,0 +1,97 @@
+<%- include("top") %>
+
+  <% if (authentication) { %>
+    <%- include("authenticatednav") %>
+      <% } else { %>
+        <%- include("nav") %>
+          <% } %>
+            <div class="container mt-5 mb-5">
+              <div class="row">
+                <div class="col-md-8 mx-auto">
+                  <div class="card bg-light mb-3">
+                    <div class="card-header text-center">
+                      <h1>
+                        <%= vinyldetails.vinyl_name %>
+                      </h1>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                          <img src="<%= vinyldetails.img_path %>" class="img-fluid mb-4" alt="Vinyl Image">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                          <table class="table table-bordered table-striped">
+                            <tbody>
+                              <tr>
+                                <td><b>Artist:</b></td>
+                                <td>
+                                  <%= vinyldetails.artist_name %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><b>Genre:</b></td>
+                                <td>
+                                  <%= vinyldetails.genre_name %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><b>Year Released:</b></td>
+                                <td>
+                                  <%= vinyldetails.year_released %>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h1 class="text-center mt-5">Tracklist</h1>
+                  <% if (tracks.length===0) { %>
+                    <p class="text-center">No tracks added yet!</p>
+                    <% } else { %>
+                      <ol>
+                        <% tracks.forEach((track)=>{ %>
+                          <li>
+                            <div class="d-flex justify-content-between">
+                              <h6>
+                                <%= track.track_name %>
+                              </h6>
+                              <form method="POST" action="/deletetrack">
+                                <input type="hidden" name="trackId" value="<%= track.track_id %>">
+                                <input type="hidden" name="vinylId" value="<%= vinylId %>">
+                                <button type="submit" style="border: none; background-color: transparent;"><i
+                                    class="fa fa-trash" aria-hidden="true"></i></button>
+                              </form>
+                            </div>
+                            <hr color="black">
+                          </li>
+                          <% }); %>
+                      </ol>
+                      <% } %>
+                        <div class="row">
+                          <div class="col-md-8 mx-4">
+                            <form method="POST" action="/addtrack">
+                              <input type="hidden" name="vinylId" value="<%= vinylId %>">
+                              <div class="form-group text-success">
+                                <label for="track_name">Add Track</label>
+                                <div class="input-group">
+                                  <input type="text" class="form-control" id="track_name" name="track_name" required>
+                                  <div class="input-group-append">
+                                    <button type="submit" class="mx-2"
+                                      style="border: none; background-color: transparent;"><i
+                                        class="fa-solid fa-plus fa-2xl" style="color: #60e916;"></i></button>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                </div>
+              </div>
+            </div>
+
+
+            <%- include("foot") %>

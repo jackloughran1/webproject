@@ -1,0 +1,41 @@
+<%- include("top") %>
+  <% if (typeof authentication !=='undefined' && authentication) { %>
+    <%- include("authenticatednav") %>
+      <% } else { %>
+        <%- include("nav") %>
+          <% } %>
+            <div class="container my-5">
+              <div class="row text-center">
+                <div class="col-md-4">
+                  <h2 class="display-6 text-success">
+                    <%= vinyldata[0].vinyl_name %> - <%= vinyldata[0].artist_name %>
+                  </h2>
+                  <section>
+                    <dl>
+                      <dt class="text-success">Genre:</dt>
+                      <dd>
+                        <%= vinyldata[0].genre_name %>
+                      </dd>
+                      <dt class="text-success">Year Released:</dt>
+                      <dd>
+                        <%= vinyldata[0].year_released %>
+                      </dd>
+                    </dl>
+                  </section>
+                  <h4><u>Track List</u></h4>
+                  <br>
+                  <ol>
+                    <% vinyldata.forEach((track)=>{ %>
+                      <li>
+                        <%= track.track_name %>
+                      </li>
+                      <hr color="black">
+                      <% }); %>
+                  </ol>
+                </div>
+                <div class="col-md-8">
+                  <img src="<%= vinyldata[0].img_path %>" alt="Vinyl Cover Image" class="img-fliud" id="vinylpageimage">
+                </div>
+              </div>
+            </div>
+            <%- include("foot") %>

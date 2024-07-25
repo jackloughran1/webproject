@@ -1,0 +1,65 @@
+<%- include("top") %>
+  <!--if authenitcated from session, and undefined when session destroyed in log out-->
+  <% if (typeof authenticated !=='undefined' && authenticated) { %>
+
+    <%- include("authenticatednav") %>
+
+      <% } else { %>
+
+        <%- include("nav") %>
+
+
+          <% } %>
+
+
+
+            <!--Section refers to all content -->
+            <section class="content pb-5">
+
+              <!--JumbroTron Main Heading for home page - Welcomoe-->
+              <div class="jumbotron jumbotron-fluid bg-dark text-white">
+                <div class="container text-center">
+                  <h1 class="display-3">Welcome to StackOfWax</h1>
+                </div>
+              </div>
+
+              <!-- Cards on Main Home Page-->
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card">
+                    <img
+                      src="https://images.unsplash.com/photo-1551708769-d1525c52cccc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=&q=80"
+                      class="card-image" alt="Image of vinyls">
+                    <div class="card-body text-center">
+                      <h4 class="card-title">Browse & Share Vinyls!</h4>
+                      <p class="card-start-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                        nostrum ad
+                        voluptas cum officia tempore quia facilis autem repellendus cumque id quae aliquid iusto
+                        accusamus, omnis
+                        sequi eius? Ipsum, omnis.</p>
+                      <h6> <b>Start Browsing : </b></h6>
+                      <a href="browsecollections" class="btn btn-success btn-sm">Collections</a>
+                      <a href="browsevinyls" class="btn btn-success btn-sm">Vinyls</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="card">
+                    <img
+                      src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                      class="card-image" alt="Image of Members">
+                    <div class="card-body text-center">
+                      <h4 class="card-title">Join the StackMembers</h4>
+                      <p class="card-start-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                        nostrum ad
+                        voluptas cum officia tempore quia facilis autem repellendus cumque id quae aliquid iusto
+                        accusamus, omnis
+                        sequi eius? Ipsum, omnis.</p>
+                      <a href="/signup" class="btn btn-success">Join the Community!</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <%- include("foot") %>
